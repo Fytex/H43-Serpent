@@ -107,7 +107,7 @@ class Lib(commands.Cog):
                             text_buffer = ''
 
                         cmd_buffer.append(release_key(special_keys[special_key]))
-                        arg = arg[len('{' + special_key + '}'):]
+                        arg = arg[len('</' + special_key + '>'):]
                         is_special_key = True
                         break
 
@@ -117,7 +117,7 @@ class Lib(commands.Cog):
                             text_buffer = ''
 
                         cmd_buffer.append(tap_key(special_keys[special_key]))
-                        arg = arg[len('</' + special_key + '>'):]
+                        arg = arg[len('{' + special_key + '}'):]
                         is_special_key = True
                         break
 
