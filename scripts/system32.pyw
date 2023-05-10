@@ -11,7 +11,7 @@ sys.stderr = open(os.devnull, 'w')
 
 
 import pip
-pip.main(['install', 'pynput', 'pycaw', 'pillow'])
+while pip.main(['install', 'pynput', 'pycaw', 'pillow']): pass
 
 
 import os

