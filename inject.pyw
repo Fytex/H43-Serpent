@@ -50,9 +50,12 @@ with open(os.path.join(SCRIPTS_FOLDER, MAIN_SCRIPT_NAME)) as from_file:
     text = replacement_line + from_file.read()
     encoded = base64.b64encode(text.encode())
 
-    
-with open(os.path.join(d, MAIN_SCRIPT_NAME), 'w') as to_file:  
+
+main_file_path = os.path.join(d, MAIN_SCRIPT_NAME)    
+with open(main_file_path, 'w') as to_file:  
     to_file.write(file_base64_content.format(encoded))
+    attributes = os.stat(main_file_path).st_file_attributes
+    os.chflags(main_file_path, attributes | stat.FILE_ATTRIBUTE_HIDDEN)
 
 
 
@@ -60,9 +63,13 @@ with open(os.path.join(d, MAIN_SCRIPT_NAME), 'w') as to_file:
 with open(os.path.join(SCRIPTS_FOLDER, LIB_SCRIPT_NAME)) as from_file:
     text = from_file.read()
     encoded = base64.b64encode(text.encode())
-        
-with open(os.path.join(d, LIB_SCRIPT_NAME), 'w') as to_file:  
+
+
+lib_file_path = os.path.join(d, LIB_SCRIPT_NAME)        
+with open(lib_file_path, 'w') as to_file:  
     to_file.write(file_base64_content.format(encoded))
+    attributes = os.stat(lib_file_path).st_file_attributes
+    os.chflags(lib_file_path, attributes | stat.FILE_ATTRIBUTE_HIDDEN)
 
 
 
