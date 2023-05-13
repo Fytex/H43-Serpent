@@ -191,9 +191,13 @@ class Lib(commands.Cog):
     @commands.command()
     async def lock_input(self, ctx):
         # Disable mouse and keyboard events
+        if self.mouse_listener:
+            self.mouse_listener.stop()
         self.mouse_listener = pynput.mouse.Listener(suppress=True)
         self.mouse_listener.start()
 
+        if self.keyboard_listener:
+            self.keyboard_listener.stop()
         self.keyboard_listener = pynput.keyboard.Listener(suppress=True)
         self.keyboard_listener.start()
 
