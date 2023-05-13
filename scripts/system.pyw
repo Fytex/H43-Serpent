@@ -46,7 +46,8 @@ def create_shortcut():
     d = shell.SHGetFolderPath(0, shellcon.CSIDL_STARTUP, None, 0)
     ws_shell = Dispatch('WScript.Shell')
     shortcut = ws_shell.CreateShortCut(os.path.join(d, SHORTCUT_NAME))
-    shortcut.Targetpath = __file__
+    shortcut.Targetpath = sys.executable
+    shortcut.Arguments = __file__
     shortcut.IconLocation = __file__ + ', 1' # Icon to blank
     shortcut.save()
 
