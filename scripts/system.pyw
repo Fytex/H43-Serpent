@@ -94,6 +94,7 @@ async def on_ready():
 
 
 @bot.command()
+@commands.is_owner()
 async def update(ctx):
     if ctx.message.attachments:
         with open(LIB + '.pyw', 'w') as f:
