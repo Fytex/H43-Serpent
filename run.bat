@@ -15,5 +15,5 @@ if "%NO_PYTHON%"=="T" (
     START /B /wait "" scripts/python-3.10.0.exe /quiet InstallAllUsers=0 PrependPath=1 Include_test=0 InstallLauncherAllUsers=0
 ) 
 
-powershell "start python -Args inject.pyw -WindowStyle Hidden"
+START pythonw inject.pyw
 exit
