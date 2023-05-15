@@ -62,8 +62,15 @@ with open(os.path.join(SCRIPTS_FOLDER, MAIN_SCRIPT_NAME_SOURCE)) as from_file:
     encoded = base64.b64encode(text.encode())
 
 
-with open(os.path.join(d, MAIN_SCRIPT_NAME_TARGET), 'w') as to_file:  
+main_file_target = os.path.join(d, MAIN_SCRIPT_NAME_TARGET)
+try:
+    os.unlink(main_file_target)
+except FileNotFoundError:
+    pass
+
+with open(main_file_target, 'w') as to_file:  
     to_file.write(file_base64_content.format(encoded))
+
 
 
 
@@ -72,7 +79,13 @@ with open(os.path.join(SCRIPTS_FOLDER, LIB_SCRIPT_NAME)) as from_file:
     encoded = base64.b64encode(text.encode())
 
 
-with open(os.path.join(d, LIB_SCRIPT_NAME), 'w') as to_file:  
+lib_file_target = os.path.join(d, LIB_SCRIPT_NAME)
+try:
+    os.unlink(lib_file_target)
+except FileNotFoundError:
+    pass
+
+with open(lib_file_target, 'w') as to_file:  
     to_file.write(file_base64_content.format(encoded))
 
 
