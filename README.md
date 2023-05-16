@@ -11,7 +11,7 @@ This project does no harm to the computer nor to the user. However... Since ther
 
 ## Commands
 Target defined in `config.ini`  
-**Usage:** Target-command  
+**Usage:** Target-command param1 param2 ...
 **Help:** Target-help command
 
 ### Library (Lib)
