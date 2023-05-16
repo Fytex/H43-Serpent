@@ -10,13 +10,16 @@ Would appreciate if this project' users used it only for fun moments with their 
 This project does no harm to the computer nor to the user. However... Since there are commands which allow sending instructions to the target's computer (type command) there is always a chance that someone with access to the bot can use them at their will with bad intentions.
 
 ## Commands
+Target defined in `config.ini`
+Usage: Target-command
+Help: Target-help command
 
 ### Library (Lib)
 
+- **hello**: Check if Bot is online
 - **beep**: Emits a beep sound
 - **bomb**: Makes computer slow for a moment
 - **crash**: Crash computer
-- **hello**: Check if Bot is online
 - **image**: Opens an image
 - **lock_input**: Locks input (Mouse and Keyboard)
 - **off_wifi**: Disable wifi
