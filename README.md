@@ -81,3 +81,5 @@ The bot lib can be updated without fear of breaking the program. Obviously calls
 
 ## Donate
 If you want to donate something :) [Click Here for Paypal](https://www.paypal.me/fytex)
+
+If not... I would appreciate a little star in my project :)
