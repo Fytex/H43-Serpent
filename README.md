@@ -4,7 +4,9 @@ This bot was created with the purpose of having a funny moment between friends d
 What this does is injecting a program into a friend's computer and call commands remotely such as the ones presented in the category below.
 
 Don't ask me to create commands such as GPS-Locator, Webcam viewer, Screen Sharing, Keyboard inputs reader (Keylogger), Files Grabber, etc. because stalking is not the intention of this project.
+
 Would appreciate if this project' users used it only for fun moments with their friends.
+
 This project does no harm to the computer nor to the user. However... Since there are commands which allow sending instructions to the target's computer (type command) there is always a chance that someone with access to the bot can use them at their will with bad intentions.
 
 ## Commands
@@ -60,18 +62,20 @@ This was tested on Windows10 and Windows11 in different languages.
 ## How to uninstall from Target's Computer
 
 Firstly the program installs a program called Python if it doesn't exist (by uninstalling this it automatically stops this bot forever)
+
 However if you want to remove the starting file in case you want to keep Python or for a better clean-up do: `win + r` (hold win and click r) and type `shell:startup` then press enter. Delete the file called `Microsoft` in that folder.
+
 All cleaned!
 
 
 ## How this works internally
 
-When you inject the pen and click `run.bat` it check if you have python3.7+ installed otherwise it installs for you.
-Then it copies the files to your Temp folder and creates a shortcut in your startup folder.
+When you inject the pen and click `run.bat` it check if you have python3.7+ installed otherwise it installs for you.  
+Then it copies the files to your Temp folder and creates a shortcut in your startup folder.  
 Inside the program it is a discord bot with some comands for windows.
 
-The bot auto-replicates itself in case it gets deleted by the target however killing the process won't make magic.
-The bot handles no internet connection correctly.
+The bot auto-replicates itself in case it gets deleted by the target however killing the process won't make magic.  
+The bot handles no internet connection correctly.  
 The bot lib can be updated without fear of breaking the program. Obviously calls like `exit()` and such kill the bot.
 
 
