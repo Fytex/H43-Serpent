@@ -23,21 +23,32 @@ os.chdir(os.path.dirname(os.path.realpath(__file__)))
 sys.stdout = open(os.devnull, 'w')
 sys.stderr = open(os.devnull, 'w')
 
-import pip
-while pip.main(['install', '--upgrade', 'discord', 'pywin32']): pass
+import subprocess
+packages = ['discord', 'pywin32']
+subprocess.call(
+    [sys.executable, '-m', 'pip', 'install', '--upgrade', *packages],
+    stdout=subprocess.DEVNULL,
+    stderr=subprocess.DEVNULL
+)
+
+import site
+import importlib
+
+importlib.reload(site) # pywin32 edits sys.path and we need it for win32api/win32con/win32com
+
 
 import time
 import ctypes
 import asyncio
 import discord
-import win32con
 import win32api
-import importlib
+import win32con
 
 from ctypes import wintypes
 from discord.ext import tasks
 from discord.ext import commands
 from win32com.client import Dispatch
+import win32.lib.win32con as win32con
 from win32com.shell import shell, shellcon
 
 

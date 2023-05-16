@@ -17,8 +17,13 @@ sys.stdout = open(os.devnull, 'w')
 sys.stderr = open(os.devnull, 'w')
 
 
-import pip
-while pip.main(['install', 'pynput', 'pycaw', 'pillow']): pass
+import subprocess
+packages = ['pynput', 'pycaw', 'pillow']
+subprocess.call(
+    [sys.executable, '-m', 'pip', 'install', '--upgrade', *packages],
+    stdout=subprocess.DEVNULL,
+    stderr=subprocess.DEVNULL
+)
 
 
 import os

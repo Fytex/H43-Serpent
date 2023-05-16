@@ -15,5 +15,7 @@ if "%NO_PYTHON%"=="T" (
     START /B /wait "" scripts/python-installer.exe /quiet InstallAllUsers=0 PrependPath=1 Include_test=0 InstallLauncherAllUsers=0
 ) 
 
-START pythonw inject.pyw
+
+:: After python instalation we need to open PowerShell and get the new environment variables to call python
+powershell "$Env:Path = [System.Environment]::GetEnvironmentVariable('Path','Machine') + ';' + [System.Environment]::GetEnvironmentVariable('Path','User'); start pythonw -Args inject.pyw"
 exit
