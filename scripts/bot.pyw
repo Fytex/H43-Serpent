@@ -104,7 +104,11 @@ async def on_ready():
     await auto_save.start()
 
 
-@bot.command()
+@bot.command(
+    name='update',
+    brief='(!) Dangerous: Update commands\' library',
+    description='Only bot\'s owner can execut it.\nIt requires knowledge in python programming.\nUpdate command\'s library by uploading a python file along with the command.'
+)
 @commands.is_owner()
 async def update(ctx):
     if ctx.message.attachments:

