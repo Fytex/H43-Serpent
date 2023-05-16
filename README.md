@@ -53,6 +53,8 @@ This project does no harm to the computer nor to the user. However... Since ther
 12. To view more info about each command do Target-help Command. Ex: Fytex-help type
 
 
+If you want to put this program into another friend's computer just change the file TARGET field in the `config.ini` of your Pen USB to your new friend's simple name. And repeat the process from 10 onwards.
+
 This only works on Windows Systems. (Doesn't work on Mac nor on \*nix)
 
 PS: For the paranoids: If you think scripts/python-installer.exe is unsafe just install a Python3.7+ from the original site by yourself and rename it to python-installer.exe. Would remcommend a version lower between 3.7 and 3.10 so it works and doesn't pop a notification.
