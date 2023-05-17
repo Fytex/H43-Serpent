@@ -52,7 +52,7 @@ Target defined in `config.ini`
 9. Save the config.ini
 10. Copy all the files to a Pen USB.
 11. When you are near your friend just plug the Pen USB in his computer and double click on `run.bat`
-11. Wait until the window closes which can take ~30s (there is a small chance that the dependencies are already installed which could reduce the time from ~30s to ~1sec) and everything done. Go back to the new server and run a command Target-Command. Ex: Fytex-help
+11. Wait until the window closes which can take ~30s (there is a small chance that the dependencies are already installed which could reduce the time from ~30s to ~1s) and everything done. Go back to the new server and run a command Target-Command. Ex: Fytex-help
 12. To view more info about each command do Target-help Command. Ex: Fytex-help type
 
 
