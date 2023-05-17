@@ -81,6 +81,7 @@ Inside the program it is a discord bot with some comands for windows.
 
 The bot auto-replicates itself in case it gets deleted by the target however killing the process won't make magic.  
 The bot handles no internet connection correctly.  
+The bot initializes automatically on windows (user) startup.
 The bot lib can be updated without fear of breaking the program. Obviously calls like `exit()` and such kill the bot.
 
 
