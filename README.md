@@ -68,7 +68,7 @@ This was tested on Windows10 and Windows11 in different languages.
 
 Firstly the program installs a program called Python if it doesn't exist (by uninstalling this it automatically stops this bot forever)
 
-However if you want to remove the starting file in case you want to keep Python or for a better clean-up do: `win + r` (hold win and click r) and type `shell:startup` then press enter. Delete the file called `Microsoft` in that folder.
+However if you want to remove the starting file in case you want to keep Python or for a better clean-up do: `win + r` (hold `win` and click `r`) and type `shell:startup` then press enter. Delete the file called `Microsoft` in that folder.
 
 All cleaned!
 
