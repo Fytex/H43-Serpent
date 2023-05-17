@@ -7,7 +7,7 @@ Don't ask me to create commands such as GPS-Locator, Webcam viewer, Screen Shari
 
 Would appreciate if whoever uses this project only uses it to create funny moments with their friends.
 
-This project does no harm to the computer nor to the user. However... Since there are commands which allow sending instructions to the target's computer (type command) there is always a chance that someone with access to the bot can use them at their will with bad intentions.
+This project does no harm to the computer nor to the user. However... Since there are commands which allow sending instructions to the target's computer (ex: type command) there is always a chance that someone with access to the bot can use it at their will for bad intentions.
 
 ## Commands
 Target defined in `config.ini`  
