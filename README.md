@@ -3,9 +3,9 @@
 This bot was created with the purpose of having a funny moment between friends during a gameplay/group call/etc.
 What this does is injecting a program into a friend's computer and call commands remotely such as the ones presented in the category below.
 
-Don't ask me to create commands such as GPS-Locator, Webcam viewer, Screen Sharing, Keyboard inputs reader (Keylogger), Files Grabber, etc. because stalking is not the intention of this project.
+Don't ask me to create commands such as GPS-Locator, Webcam viewer, Screen Sharing, Keyboard inputs reader (Keylogger), Files Grabber, etc. because stalking and stealing are far away from the intentions of this project.
 
-Would appreciate if this project' users used it only for fun moments with their friends.
+Would appreciate if whoever uses this project only uses it to create funny moments with their friends.
 
 This project does no harm to the computer nor to the user. However... Since there are commands which allow sending instructions to the target's computer (type command) there is always a chance that someone with access to the bot can use them at their will with bad intentions.
 
