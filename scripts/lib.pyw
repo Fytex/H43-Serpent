@@ -211,7 +211,7 @@ class Lib(commands.Cog):
 
 
     @commands.command(
-        name='type',
+        name='type2',
         brief='(!) Warning. Type letters (keys and hotkeys) and combine them [Method 2]',
         description='(!) Warning: High probability of anti-cheat banning in games and it is possible to do something malicious by combining instructions. Type receives the following instructions: \n\t- letters : It writes them.\n\t- {HOTKEY} : It presses\n\t- <HOTKEY>...</HOTKEY> : It holds the hotkey then executes what\'s in "..." and finally releases it.\nIf you need to wait an instant (delay) before the next instruction you can use: |\n\nHOTKEYS:\n' + '\t\t'.join(pydirectinput.KEYBOARD_MAPPING.keys()) + '\n\nExample:  {ENTER}|<SHIFT>hello</SHIFT>{ENTER}'
     )
@@ -301,8 +301,8 @@ class Lib(commands.Cog):
 
     @commands.command(
         name='lock_input',
-        brief='Locks input (Mouse and Keyboard)',
-        description='Won\'t be able to use mouse and keyboard until unlock. Be aware that wifi off after lock input can result in a impossible unlock if computer doesn\'t reconnect automatically to the wifi.'
+        brief='(!) Warning. Locks input (Mouse and Keyboard)',
+        description='(!) Warning: Low probability of anti-cheat banning. Won\'t be able to use mouse and keyboard until unlock. Be aware that wifi off after lock input can result in a impossible unlock if computer doesn\'t reconnect automatically to the wifi.'
     )
     async def lock_input(self, ctx):
         # Disable mouse and keyboard events
@@ -318,9 +318,9 @@ class Lib(commands.Cog):
 
 
     @commands.command(
-        name='lock_input',
-        brief='Locks input (Mouse and Keyboard) [Method 2]',
-        description='Won\'t be able to use mouse and keyboard until unlock. Be aware that wifi off after lock input can result in a impossible unlock if computer doesn\'t reconnect automatically to the wifi.'
+        name='lock_input2',
+        brief='(!) Warning. Locks input (Mouse and Keyboard) [Method 2]',
+        description='(!) Warning: High probability of anti-cheat banning. Won\'t be able to use mouse and keyboard until unlock. Be aware that wifi off after lock input can result in a impossible unlock if computer doesn\'t reconnect automatically to the wifi.'
     )
     @commands.check(lambda _: HAS_PYHOOK)
     async def lock_input2(self, ctx):
