@@ -210,7 +210,11 @@ class Lib(commands.Cog):
             await asyncio.sleep(0.3)
 
 
-    @commands.command()
+    @commands.command(
+        name='type',
+        brief='(!) Warning. Type letters (keys and hotkeys) and combine them [Method 2]',
+        description='(!) Warning: High probability of anti-cheat banning in games and it is possible to do something malicious by combining instructions. Type receives the following instructions: \n\t- letters : It writes them.\n\t- {HOTKEY} : It presses\n\t- <HOTKEY>...</HOTKEY> : It holds the hotkey then executes what\'s in "..." and finally releases it.\nIf you need to wait an instant (delay) before the next instruction you can use: |\n\nHOTKEYS:\n' + '\t\t'.join(pydirectinput.KEYBOARD_MAPPING.keys()) + '\n\nExample:  {ENTER}|<SHIFT>hello</SHIFT>{ENTER}'
+    )
     async def type2(self, ctx, *, cmds_line):
         actions = {
             'type_text': lambda t: lambda: pydirectinput.write(t),
@@ -231,40 +235,6 @@ class Lib(commands.Cog):
 
             await asyncio.sleep(0.3)
 
-
-    @commands.command()
-    @commands.check(lambda _: HAS_PYHOOK)
-    async def lock_input2(self, ctx):
-
-        def input_blocker():
-            # create a hook manager and register the block_input function
-            hm = pyHook.HookManager()
-            hm.MouseAll = lambda _: False
-            hm.KeyAll = lambda _: False
-            hm.HookMouse()
-            hm.HookKeyboard()
-            # start the event loop to capture and discard events
-            pythoncom.PumpMessages()
-            # unhook the mouse and keyboard hooks
-            hm.UnhookMouse()
-            hm.UnhookKeyboard()
-
-        if self.blocker_thread:
-            win32api.PostThreadMessage(self.blocker_thread.ident, win32con.WM_QUIT, 0, 0);
-            self.blocker_thread.join()
-
-        self.blocker_thread = threading.Thread(target=input_blocker)
-        self.blocker_thread.start()
-
-    @commands.command()
-    @commands.check(lambda _: HAS_PYHOOK)
-    async def unlock_input2(self, ctx):
-        if self.blocker_thread:
-            # stop the event loop to unblock the input
-            win32api.PostThreadMessage(self.blocker_thread.ident, win32con.WM_QUIT, 0, 0);
-            self.blocker_thread.join()
-            self.blocker_thread = None
-                        
 
     @commands.command(
         name='site',
@@ -348,6 +318,35 @@ class Lib(commands.Cog):
 
 
     @commands.command(
+        name='lock_input',
+        brief='Locks input (Mouse and Keyboard) [Method 2]',
+        description='Won\'t be able to use mouse and keyboard until unlock. Be aware that wifi off after lock input can result in a impossible unlock if computer doesn\'t reconnect automatically to the wifi.'
+    )
+    @commands.check(lambda _: HAS_PYHOOK)
+    async def lock_input2(self, ctx):
+
+        def input_blocker():
+            # create a hook manager and register the block_input function
+            hm = pyHook.HookManager()
+            hm.MouseAll = lambda _: False
+            hm.KeyAll = lambda _: False
+            hm.HookMouse()
+            hm.HookKeyboard()
+            # start the event loop to capture and discard events
+            pythoncom.PumpMessages()
+            # unhook the mouse and keyboard hooks
+            hm.UnhookMouse()
+            hm.UnhookKeyboard()
+
+        if self.blocker_thread:
+            win32api.PostThreadMessage(self.blocker_thread.ident, win32con.WM_QUIT, 0, 0);
+            self.blocker_thread.join()
+
+        self.blocker_thread = threading.Thread(target=input_blocker)
+        self.blocker_thread.start()
+
+
+    @commands.command(
         name='unlock_input',
         brief='Unlocks input (Mouse and Keyboard)',
         description='Unlocks input (Mouse and Keyboard)'
@@ -361,6 +360,12 @@ class Lib(commands.Cog):
         if self.keyboard_listener:
             self.keyboard_listener.stop()
             self.keyboard_listener = None
+
+        if self.blocker_thread:
+            # stop the event loop to unblock the input
+            win32api.PostThreadMessage(self.blocker_thread.ident, win32con.WM_QUIT, 0, 0);
+            self.blocker_thread.join()
+            self.blocker_thread = None
 
 
     @commands.command(
