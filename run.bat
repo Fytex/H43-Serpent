@@ -12,7 +12,8 @@ if errorlevel 1 (
 )
 
 if "%NO_PYTHON%"=="T" (
-    START /B /wait "" scripts/python-installer.exe /quiet InstallAllUsers=0 PrependPath=1 Include_test=0 InstallLauncherAllUsers=0
+    reg Query "HKLM\Hardware\Description\System\CentralProcessor\0" | find /i "x86" > NUL && set FILE=scripts/python-installer.exe || set FILE=scripts/python-installer-amd64.exe
+    START /B /wait "" !FILE! /quiet InstallAllUsers=0 PrependPath=1 Include_test=0 InstallLauncherAllUsers=0
 ) 
 
 
