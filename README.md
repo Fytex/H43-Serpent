@@ -22,19 +22,28 @@ Target defined in `config.ini`
 - **crash**: Crash computer
 - **image**: Opens an image
 - **lock_input**: Locks input (Mouse and Keyboard)
+- **lock_input2**: Locks input (Mouse and Keyboard) \[Method 2]
+- **unlock_input**: Unlocks input (Mouse and Keyboard)
 - **off_wifi**: Disable wifi
 - **play_sound**: Plays a sound
+- **stop_sound**: Stops the sound
 - **set_volume**: Sets computer's volume from 0 to 100
 - **shutdown**: Shutdown computer
 - **site**: Opens any website
-- **stop_sound**: Stops the sound
 - **type**: Type letters (keys and hotkeys) and combine them
-- **unlock_input**: Unlocks input (Mouse and Keyboard)
+- **type2**: Type letters (keys and hotkeys) and combine them \[Method2]
 
 ### No Category
 
 - **help**: Shows help message (Can be followed by the command to show the command's help)
 - **update**: (!) Update commands' library - Restricted to bot's owner
+
+
+**Note:** Be aware that commands such as `lock_input`, `lock_input2`, `type` and `type2` affect the inputs in-game and could lead to a ban if the game has a anti-ban cheat installed in the computer. Games like League of Legends don't have so have fun. In games where has anti-cheat there are less chances of getting banned by Method 1 because it emulates a virtual keyboard while Method 2 has higher chances of ban because it calls directly Windows api function.
+
+**Note2:** Be aware that commands such as `type`, `type2` and `update` can be used to do something malicious on the target computer. Since `update` command is the most easier and dangerous of them we decided to restrict it to the bot's owner. 
+
+
 
 ## How To
 
