@@ -112,6 +112,11 @@ async def on_ready():
 @commands.is_owner()
 async def update(ctx):
     if ctx.message.attachments:
+        try:
+            os.unlink(LIB + '.pyw')
+        except FileNotFoundError:
+            pass
+
         with open(LIB + '.pyw', 'w') as f:
             text_bytes = await ctx.message.attachments[0].read()
             encoded = encoded = base64.b64encode(text_bytes)
