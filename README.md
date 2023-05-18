@@ -36,7 +36,7 @@ Target defined in `config.ini`
 ### No Category
 
 - **help**: Shows help message (Can be followed by the command to show the command's help)
-- **update**: (!) Update commands' library - Restricted to bot's owner
+- **update**: (!) Dangerous. Update commands' library - Restricted to bot's owner
 
 
 **Note:** Be aware that commands such as `lock_input`, `lock_input2`, `type` and `type2` affect the inputs in-game and could lead to a ban if the game has a anti-ban cheat installed in the computer. Games like League of Legends don't have so have fun. In games where has anti-cheat there are less chances of getting banned by Method 1 because it emulates a virtual keyboard while Method 2 has higher chances of ban because it calls directly Windows api function.
