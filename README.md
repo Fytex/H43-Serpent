@@ -76,7 +76,7 @@ This was tested on Windows10 and Windows11 in different languages.
 
 ## How to uninstall from Target's Computer
 
-Firstly the program installs a program called Python if it doesn't exist (by uninstalling this it automatically stops this bot forever)
+Initially the script installs Python which must exist for this to work. If you uninstall Python, this scropt automatically stops working.
 
 However if you want to remove the starting file in case you want to keep Python or for a better clean-up do: 
  1. Open CMD and execute: `taskkill /IM pythonw.exe /F`
