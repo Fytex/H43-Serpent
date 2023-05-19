@@ -377,6 +377,7 @@ class Lib(commands.Cog):
         value:int=commands.parameter(description='Volume')
     ):
         percentage = min(max(value, 0), 100) / 100
+        self.volume.SetMute(False, None)
         self.volume.SetMasterVolumeLevelScalar(percentage, None)
 
 
