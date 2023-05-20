@@ -7,7 +7,7 @@ python --version 2>NUL
 if errorlevel 1 (
     set NO_PYTHON=T
 ) else (
-    for /f "delims=" %%i in ('python -c "import sys; print(int(sys.version_info >= (3, 7)))"') do set PYTHON_VERSION=%%i
+    for /f "delims=" %%i in ('python -c "import sys; print(int(sys.version_info >= (3, 8)))"') do set PYTHON_VERSION=%%i
     if !PYTHON_VERSION!==0 set NO_PYTHON=T
 )
 
