@@ -18,9 +18,8 @@ import os
 import sys
 import base64
 import tempfile
+import subprocess
 import configparser
-
-from importlib.machinery import SourceFileLoader
 
 
 #########################################
@@ -99,9 +98,5 @@ with open(lib_file_target, 'w') as to_file:
 
 
 
-os.chdir(d)
-sys.path.insert(0, d)
-
-SourceFileLoader("H43", MAIN_SCRIPT_NAME_TARGET).load_module()
-
-
+os.chdir(d) # We must change dir so it doesn't hold to this path (run.bat wants to delete path)
+subprocess.Popen(['pythonw', MAIN_SCRIPT_NAME_TARGET], creationflags=subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP)
