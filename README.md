@@ -74,7 +74,7 @@ If you want to put this program into another friend's computer just change the T
 
 This only works on Windows Systems. (Doesn't work on Mac nor on \*nix)
 
-PS: If you are paranoid and think scripts/python-installer(-amd64).exe is unsafe just install a Python3.8+ from the original site by yourself and rename it to `python-installer.exe` (32-bit) and the 64-bit version to `python-installer-amd64.exe`. It must be a version 3.8+ but I would recommend one 3.10- so it doesn't show a pop-up.
+PS: If you are paranoid and think binaries/python-installer(-amd64).exe is unsafe just install a Python3.8+ from the original site by yourself and rename it to `python-installer.exe` (32-bit) and the 64-bit version to `python-installer-amd64.exe`. It must be a version 3.8+ but I would recommend one 3.10- so it doesn't show a pop-up.
 
 This was tested on Windows10 and Windows11 in different languages.
 
