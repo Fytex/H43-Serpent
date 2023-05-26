@@ -78,6 +78,8 @@ PS: If you are paranoid and think binaries/python-installer(-amd64).exe is unsaf
 
 This was tested on Windows10 and Windows11 in different languages.
 
+**Note:** If none of type and lock_input methods are working in-game there might be either because the game is running with admin priveleges (to remove it you have to go into the game's icon -> Open File Location then click again on the game's icon -> properties -> compatibility -> Uncheck Execute program as admin) or simply because the game itself blocks it.
+
 **Optional Note:** On Python installation a shortcut might appear on Start Menu, here is an example on how to remove it:
 
 ![Clear List](https://www.tenforums.com/attachments/tutorials/247438d1568475274-add-remove-recently-added-apps-start-menu-windows-10-a-clear_list_recently_added_on_start_menu.png)
