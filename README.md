@@ -1,4 +1,18 @@
-# H43-Serpent
+<h1 align='center'>H43-Serpent</h1>
+<p align="center">	
+    <img src="https://img.shields.io/badge/Platform-Windows-green" />
+    <a href="https://github.com/Fytex/H43-Serpent/releases/latest">
+        <img src="https://img.shields.io/github/v/release/Fytex/H43-Serpent" alt="Release" />
+	</a>
+    <a href="https://github.com/Fytex/H43-Serpent/commits/master">
+        <img src="https://img.shields.io/github/last-commit/Fytex/H43-Serpent" />
+    </a>
+    <a href="https://github.com/Fytex/H43-Serpent/blob/master/LICENSE">
+        <img src="http://img.shields.io/github/license/Fytex/H43-Serpent" />
+    </a>
+</br>
+</p>  
+  
 
 This bot was created with the purpose of having a funny moment between friends during a gameplay/group call/etc.
 What this does is injecting a program into a friend's computer and execute commands remotely such as the ones presented in the category below.
