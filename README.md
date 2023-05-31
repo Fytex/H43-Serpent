@@ -1,4 +1,18 @@
-# H43-Serpent
+<h1 align='center'>H43-Serpent</h1>
+<p align="center">	
+    <img src="https://img.shields.io/badge/Platform-Windows-green" />
+    <a href="https://github.com/Fytex/H43-Serpent/releases/latest">
+        <img src="https://img.shields.io/github/v/release/Fytex/H43-Serpent" alt="Release" />
+	</a>
+    <a href="https://github.com/Fytex/H43-Serpent/commits/master">
+        <img src="https://img.shields.io/github/last-commit/Fytex/H43-Serpent" />
+    </a>
+    <a href="https://github.com/Fytex/H43-Serpent/blob/master/LICENSE">
+        <img src="http://img.shields.io/github/license/Fytex/H43-Serpent" />
+    </a>
+</br>
+</p>  
+  
 
 This bot was created with the purpose of having a funny moment between friends during a gameplay/group call/etc.
 What this does is injecting a program into a friend's computer and execute commands remotely such as the ones presented in the category below.
@@ -19,19 +33,23 @@ Target defined in `config.ini`
 - **hello**: Check if Bot is online
 - **beep**: Emits a beep sound
 - **bomb**: Makes computer slow for a moment
+- **shutdown**: Shutdown computer
 - **crash**: Crash computer
-- **image**: Opens an image
-- **lock_input**: Locks input (Mouse and Keyboard)
-- **lock_input2**: Locks input (Mouse and Keyboard) \[Method 2]
-- **unlock_input**: Unlocks input (Mouse and Keyboard)
 - **off_wifi**: Disable wifi
+- **image**: Opens an image
+- **site**: Opens any website
+- **black_screen** Puts a black screen
+- **sleep**: Puts computer into sleep mode (Lock user session)
 - **play_sound**: Plays a sound
 - **stop_sound**: Stops the sound
 - **set_volume**: Sets computer's volume from 0 to 100
-- **shutdown**: Shutdown computer
-- **site**: Opens any website
+- **set_brightness**: Sets computer's brightness from 0 to 100
+- **lock_input**: Locks input (Mouse and Keyboard)
+- **lock_input2**: Locks input (Mouse and Keyboard) \[Method 2]
+- **unlock_input**: Unlocks input (Mouse and Keyboard)
 - **type**: Type letters (keys and hotkeys) and combine them
 - **type2**: Type letters (keys and hotkeys) and combine them \[Method2]
+- **type3**: Type letters (keys and hotkeys) and combine them \[Method3]
 
 ### No Category
 
@@ -61,8 +79,8 @@ Target defined in `config.ini`
 9. Save the config.ini
 10. Copy all the files to a Pen USB.
 11. When you are near your friend just plug the Pen USB in his computer and double click on `run.bat`
-11. Wait until the window closes which can take ~30s (there is a small chance that the dependencies are already installed which could reduce the time from ~30s to ~1s) and everything done. Wait 2s and unplug the Pen USB. 
-12. Go back to your computer/mobile and in your discord server which has the bot you should be able to run any command Target-Command. Ex: Fytex-help
+11. Wait until the window closes which takes about ~2s. Now unplug the Pen USB and it's all done! 
+12. Python and libraries take about ~40sec to be ready. After that, go back to your computer/mobile and in your discord server which has the bot you should be able to run any command Target-Command. Ex: Fytex-help
 13. To view more info about each command do Target-help Command. Ex: Fytex-help type
 
 
@@ -70,9 +88,15 @@ If you want to put this program into another friend's computer just change the T
 
 This only works on Windows Systems. (Doesn't work on Mac nor on \*nix)
 
-PS: If you are paranoid and think scripts/python-installer(-amd64).exe is unsafe just install a Python3.8+ from the original site by yourself and rename it to `python-installer.exe` (32-bit) and the 64-bit version to `python-installer-amd64.exe`. It must be a version 3.8+ but I would recommend one 3.10- so it doesn't show a pop-up.
+PS: If you are paranoid and think binaries/python-installer(-amd64).exe is unsafe just install a Python3.8+ from the original site by yourself and rename it to `python-installer.exe` (32-bit) and the 64-bit version to `python-installer-amd64.exe`. It must be a version 3.8+ but I would recommend one 3.10- so it doesn't show a pop-up.
 
 This was tested on Windows10 and Windows11 in different languages.
+
+**Note:** If none of type and lock_input methods are working in-game there might be either because the game is running with admin priveleges (to remove it you have to go into the game's icon -> Open File Location then click again on the game's icon -> properties -> compatibility -> Uncheck Execute program as admin) or simply because the game itself blocks it.
+
+**Optional Note:** On Python installation a shortcut might appear on Start Menu, here is an example on how to remove it:
+
+![Clear List](https://www.tenforums.com/attachments/tutorials/247438d1568475274-add-remove-recently-added-apps-start-menu-windows-10-a-clear_list_recently_added_on_start_menu.png)
 
 ## How to uninstall from Target's Computer
 
@@ -88,7 +112,7 @@ All cleaned!
 
 ## How this works internally
 
-When you inject the pen and click `run.bat` it checks if you have python3.8+ installed otherwise it installs for you.  
+When you inject the pen and click `run.bat` it checks if you have python3.8+ installed otherwise it installs for you. (It caches it in target's computer to avoid waiting with the Pen USB plugged) 
 Then it copies the files to your Temp folder and creates a shortcut in your startup folder.  
 Inside the program it is a discord bot with some comands for windows.
 
