@@ -15,9 +15,18 @@ Author: Fytex
 REPO: https://github.com/Fytex/H43-Serpent
 '''
 
+#####################################################################
+#                      Can change these values                      #
+
 # This variable can be changed as long as it's Target's first time
 # otherwise it will have 2 shortcuts running program twice
-SHORTCUT_NAME = 'Microsoft.lnk'
+
+SHORTCUT_NAME = 'Microsoft'
+
+#####################################################################
+
+
+SHORTCUT_NAME += '.lnk'
 
 
 import sys, os
