@@ -77,8 +77,8 @@ Target defined in `config.ini`
 7. Inside config.ini edit TARGET where it says PUT_YOUR_TARGET_HERE and replace with a simple name to represent your friend. This is to choose later which friend (target) you want to execute each command.
 8. Inside config.ini edit TOKEN where it says PUT_YOUR_TOKEN_HERE and replace with the Token that you copied in 2.2
 9. Save the config.ini
-10. Copy all the files to a Pen USB.
-11. When you are near your friend just plug the Pen USB in his computer and double click on `run.bat`
+10. Copy the folder (H43-Serpent) to a Pen USB.
+11. When you are near your friend just plug the Pen USB in his computer open the folder and double click on `run.bat`
 11. Wait until the window closes which takes about ~2s. Now unplug the Pen USB and it's all done! 
 12. Python and libraries take about ~40sec to be ready. After that, go back to your computer/mobile and in your discord server which has the bot you should be able to run any command Target-Command. Ex: Fytex-help
 13. To view more info about each command do Target-help Command. Ex: Fytex-help type
