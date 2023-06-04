@@ -1,9 +1,6 @@
 <h1 align='center'>H43-Serpent</h1>
 <p align="center">	
     <img src="https://img.shields.io/badge/Platform-Windows-green" />
-    <a href="https://github.com/Fytex/H43-Serpent/releases/latest">
-        <img src="https://img.shields.io/github/v/release/Fytex/H43-Serpent" alt="Release" />
-	</a>
     <a href="https://github.com/Fytex/H43-Serpent/commits/master">
         <img src="https://img.shields.io/github/last-commit/Fytex/H43-Serpent" />
     </a>
