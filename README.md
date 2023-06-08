@@ -110,8 +110,8 @@ All cleaned!
 ## How this works internally
 
 When you inject the pen and click `run.bat` it checks if you have python3.8+ installed otherwise it installs for you. (It caches it in target's computer to avoid waiting with the Pen USB plugged) 
-Then it copies the files to your Temp folder and creates a shortcut in your startup folder.  
-Inside the program it is a discord bot with some comands for windows.
+Then it copies the files to their Temp folder and creates a shortcut in their Startup folder.  
+The program runs a Discord bot which listens to your commands and applies them on their Windows computer.
 
 The bot auto-replicates itself in case it gets deleted by the target however killing the process won't make magic.  
 The bot handles no internet connection correctly.  
